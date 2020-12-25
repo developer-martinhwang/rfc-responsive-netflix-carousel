@@ -5,62 +5,88 @@
  * Filename: CarouselContainer.js
  *
  * Key Options:
- * - retrieve movies data using AJAX from movie API
+ * - 
  *
  * Revision History:
  * - 22 Dec, 2020, Martin Hwang <developer.martinhwang@gmail.com> : Created
  * - 23 Dec, 2020, Martin Hwang: change tranditional styling into material-ui styling 
  */
-import React, { Fragment } from 'react'
+import React from 'react'
 // material-ui core
-import { List, ListItem } from '@material-ui/core'
+import { Box } from '@material-ui/core'
 // material-ui style
 import { makeStyles } from '@material-ui/styles'
-// material-ui icons
-import 
-{ Box } from '@material-ui/core'
+// components
+import CarouselList from './CarouselList'
+
 const useStyles = makeStyles({
-    carouselList: {
+    carousel: {
         height: '250px',
-        width: 'auto',
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        textAlign: 'center',
-        paddingBottom: '10px',
-        display: 'flex',
-        alignItems: 'center',
-        '& img': {
-            // adjust image size of each movie poster
-            minWidth: '150px',
-            maxWidth: '150px',
-            height: '200px',
-            backgroundSize: 'cover',
-            margin: '5px, 10px',
-            cursor: 'pointer',
-            transition: '0.5s ease',
-            zIndex: '2',
-        },
-        '& img:hover': {
-            transform: 'scale(1.5)',
-            zIndex: '5',
+        width: '100%',
+        position: 'relative',
+        "&:hover": {
+            "& $arrowLeft": {
+                display: 'inline-block'
+            },
+            "& $arrowRight": {
+                display: 'inline-block'
+            }
         }
     },
+    arrowLeftBox: {
+        '& :hover': {
+            cursor: 'move'
+        }
+    },
+    arrowLeft: {
+        color: '#e50914',
+        fontWeight: 'bold',
+        height: '100%',
+        width: '70px',
+        top: '0',
+        zIndex: '3',
+        position: 'absolute',
+        display: 'none',
+        left: '5px',
+        '& :hover': {
+            cursor: 'move'
+        }
+    },
+    arrowRightBox: {
+        '& :hover': {
+            cursor: 'move'
+        }
+    },
+    arrowRight: {
+        color: '#e50914',
+        fontWeight: 'bold',
+        height: '100%',
+        width: '70px',
+        top: '0',
+        zIndex: '3',
+        position: 'absolute',
+        display: 'none',
+        right: '-12px',
+        '& :hover': {
+            cursor: 'move'
+        }
+    }
 })
 function CarouselContainer(props) {
     const classes = useStyles()
     let movies = props.movies
     return (
-        <Fragment >
+        <Box className={classes.carousel}>
             <Box>
-                <List className={classes.carouselList}>
-                    {movies.map((movie, index) => (
-                        <ListItem key={index}>
-                            <img src={`http://image.tmdb.org/t/p/w185/${movie.poster_path}`} alt={`poster of ${movie.poster_path}`}/>
-                        </ListItem>
-                    ))}  
-                </List>
+                <CarouselList movies={movies}/>
             </Box>
-        </Fragment>
+            {/* <Box className={classes.arrowLeftBox} onClick={()=>{alert('clicked')}}>
+                <ArrowLeftIcon className={classes.arrowLeft} />
+            </Box>
+            <Box className={classes.arrowRightBox}>
+                <ArrowRightIcon className={classes.arrowRight}/>
+            </Box> */}
+        </Box>
     )
 }
 

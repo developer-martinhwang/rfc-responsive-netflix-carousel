@@ -23,38 +23,10 @@ import CarouselContainer from './CarouselContainer'
 // assets
 import NetflixLogo from '../assets/netflix.png'
 
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
+
 const useStyles = makeStyles({
     container: {
         marginTop: '30vh'
-    },
-    carousel: {
-        height: '250px',
-        width: '100%',
-        position: 'relative',
-        '& .arrow': {
-            color: 'red',
-            fontWeight: 'bold',
-            height: '100%',
-            width: '45px',
-            lineHeight: '250px',
-            fontSize: '25px',
-            textAlign: 'center',
-            top: '0',
-            zIndex: '3',
-            position: 'absolute',
-            // display: 'none'
-        },
-        '& .arrow:hover': {
-            cursor: 'move'
-        },
-        '& .arrowLeft': {
-            left: '12px'
-        },
-        '& .arrowRight': {
-            right: '-12px'
-        },
     },
     netflixLogo: {
         height: '15vw',
@@ -102,14 +74,11 @@ function Carousel() {
                 <Box className={classes.netflixLogo}>
                     <img src={NetflixLogo} alt="Netflix Logo"/>
                 </Box>
-                <Box className={classes.carousel}>
+                <Box>
                     <CarouselContainer movies={movies}/>
-                    <Box>
-                        <ArrowBackIosIcon className="arrow arrowLeft"/>
-                    </Box>
-                    <Box>
-                        <ArrowForwardIosIcon className="arrow arrowRight"/>
-                    </Box>
+                </Box>
+                <Box>
+                    <CarouselContainer movies={movies}/>
                 </Box>
             </Box>
         )
