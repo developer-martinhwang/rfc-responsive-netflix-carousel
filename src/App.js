@@ -13,12 +13,12 @@
 import React, { Fragment } from 'react'
 import './App.css';
 // components
-import Carousel from './components/Carousel'
+import Home from './components/Home'
 function App() {
   
   return (
     <Fragment>
-      <Carousel />
+      <Home />
     </Fragment>
   );
 }

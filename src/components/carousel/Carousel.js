@@ -15,53 +15,41 @@ import React, { useState, useEffect } from 'react'
 // material-ui core
 import 
 { Box,
-  } from '@material-ui/core'
+ } from '@material-ui/core'
 // material-ui styling
 import { makeStyles }  from '@material-ui/styles'
 // components
 import CarouselList from './CarouselList'
-// assets
-import NetflixLogo from '../assets/netflix.png'
-
 
 const useStyles = makeStyles({
-    container: {
-        marginTop: '30vh'
-    },
-    netflixLogo: {
-        height: '15vw',
-        width: 'auto',
-        marginBottom: '10vh',
-        textAlign: 'center',
-        '& img': {
-            height: '100%',
-        }  
-    },
+    // container: {
+    //     marginTop: '30vh'
+    // },
     carousel: {
-        height: '250px',
+        marginTop:'25vh', 
+        height: '50px',
         width: '100%',
         position: 'relative',
+    },
+    title: {
+        paddingLeft:'2vh'
     }
 })
-function Carousel() {
+function Carousel(props) {
     const classes = useStyles()
     const [ movies, setMovies ] = useState([])
     const [ isLoaded, setIsLoaded ] = useState(false)
     const [ error, setError ] = useState('')
     useEffect(() => {
-        const api_key = process.env.REACT_APP_MOVIES_API_KEY
-        const url_front = process.env.REACT_APP_MOVIES_URL_FRONT
-        const url_last = process.env.REACT_APP_MOVIES_URL_LAST
-        const url = `${url_front}${api_key}${url_last}`
         try {
             async function getMovies(){
-                fetch(url)
-                .then(res => res.json())
-                .then(res => {
-                    setIsLoaded(true)
-                    let movies = res.results
-                    setMovies(movies)
-                })
+                await fetch(props.fetchUrl)
+                    .then(res => res.json())
+                    .then(res => {
+                        setIsLoaded(true)
+                        let movies = res.results
+                        setMovies(movies)
+                    })
             }
             getMovies()
         } catch (err) {
@@ -71,7 +59,7 @@ function Carousel() {
         /* without [] setMovieData(movies) is set continually and 
          * send variable to child component as props unceasingly in useEffect()
         */  
-    }, [])
+    }, [props.fetchUrl])
     if (error) {
         return <Box>Error: {error.message}</Box>
     } else if (!isLoaded) {
@@ -79,14 +67,9 @@ function Carousel() {
     } else {
         return (
             <Box className={classes.container}>
-                <Box className={classes.netflixLogo}>
-                    <img src={NetflixLogo} alt="Netflix Logo"/>
-                </Box>
                 <Box className={classes.carousel}>
-                    <CarouselList movies={movies} />
-                </Box>
-                <Box className={classes.carousel}>
-                    <CarouselList movies={movies} />
+                    
+                    <CarouselList movies={movies} title={props.title}/>
                 </Box>
             </Box>
         )

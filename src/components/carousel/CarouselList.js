@@ -13,14 +13,14 @@
  */
 import React, { useRef } from 'react'
 // material-ui core
-import { Box } from '@material-ui/core'
+import { Box,  Typography } from '@material-ui/core'
 import { List, ListItem } from '@material-ui/core'
 // material-ui style
 import { makeStyles } from '@material-ui/styles'
 // material-ui icons
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-const useStyles = makeStyles({
+const useStyles = makeStyles({                                                                                                                                                                              
     carouselList: {
         "&:hover": {
             "& $arrowLeft": {
@@ -94,6 +94,10 @@ const useStyles = makeStyles({
         '& :hover': {
             cursor: 'move'
         }
+    },
+    title: {
+        paddingLeft:'1vh',
+        marginBottom: '-1vh'
     }
 })
 function CarouselList(props) {
@@ -154,6 +158,7 @@ function CarouselList(props) {
   
     return (
         <Box className={classes.carouselList}>
+            <Typography className={classes.title} variant="h5">{props.title}</Typography>
             <List ref={listRef} className={classes.list}>
                     {moviesPoster}
             </List>
