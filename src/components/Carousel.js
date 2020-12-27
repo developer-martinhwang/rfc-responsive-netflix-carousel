@@ -11,7 +11,7 @@
  * - 22 Dec, 2020, Martin Hwang <developer.martinhwang@gmail.com> : Created
  * - 23 Dec, 2020, Martin Hwang: change tranditional styling into material-ui styling 
  */
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 // material-ui core
 import 
 { Box,
@@ -19,7 +19,7 @@ import
 // material-ui styling
 import { makeStyles }  from '@material-ui/styles'
 // components
-import CarouselContainer from './CarouselContainer'
+import CarouselList from './CarouselList'
 // assets
 import NetflixLogo from '../assets/netflix.png'
 
@@ -37,6 +37,11 @@ const useStyles = makeStyles({
             height: '100%',
         }  
     },
+    carousel: {
+        height: '250px',
+        width: '100%',
+        position: 'relative',
+    }
 })
 function Carousel() {
     const classes = useStyles()
@@ -44,18 +49,21 @@ function Carousel() {
     const [ isLoaded, setIsLoaded ] = useState(false)
     const [ error, setError ] = useState('')
     useEffect(() => {
+        const api_key = process.env.REACT_APP_MOVIES_API_KEY
+        const url_front = process.env.REACT_APP_MOVIES_URL_FRONT
+        const url_last = process.env.REACT_APP_MOVIES_URL_LAST
+        const url = `${url_front}${api_key}${url_last}`
         try {
-            const api_key = process.env.REACT_APP_MOVIES_API_KEY
-            const url_front = process.env.REACT_APP_MOVIES_URL_FRONT
-            const url_last = process.env.REACT_APP_MOVIES_URL_LAST
-            const url = `${url_front}${api_key}${url_last}`
-            fetch(url)
+            async function getMovies(){
+                fetch(url)
                 .then(res => res.json())
                 .then(res => {
                     setIsLoaded(true)
                     let movies = res.results
                     setMovies(movies)
                 })
+            }
+            getMovies()
         } catch (err) {
             setIsLoaded(true)
             setError(err)
@@ -74,11 +82,11 @@ function Carousel() {
                 <Box className={classes.netflixLogo}>
                     <img src={NetflixLogo} alt="Netflix Logo"/>
                 </Box>
-                <Box>
-                    <CarouselContainer movies={movies}/>
+                <Box className={classes.carousel}>
+                    <CarouselList movies={movies} />
                 </Box>
-                <Box>
-                    <CarouselContainer movies={movies}/>
+                <Box className={classes.carousel}>
+                    <CarouselList movies={movies} />
                 </Box>
             </Box>
         )

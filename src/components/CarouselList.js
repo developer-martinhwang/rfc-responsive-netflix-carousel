@@ -18,10 +18,20 @@ import { List, ListItem } from '@material-ui/core'
 // material-ui style
 import { makeStyles } from '@material-ui/styles'
 // material-ui icons
-import ArrowRightIcon from '@material-ui/icons/ArrowRight'
-import ArrowLeftIcon from '@material-ui/icons/ArrowLeft'
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 const useStyles = makeStyles({
     carouselList: {
+        "&:hover": {
+            "& $arrowLeft": {
+                display: 'inline-block'
+            },
+            "& $arrowRight": {
+                display: 'inline-block'
+            }
+        }
+    },
+    list: {
         height: '250px',
         width: 'auto',
         overflow: 'hidden',
@@ -42,7 +52,8 @@ const useStyles = makeStyles({
             zIndex: '2',
         },
         '& img:hover': {
-            transform: 'scale(1.5)',
+            transform: 'scale(1.4)',
+            transitionDelay: '1s',
             zIndex: '5',
         }
     },
@@ -53,14 +64,13 @@ const useStyles = makeStyles({
     },
     arrowLeft: {
         color: '#e50914',
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         height: '100%',
-        width: '70px',
+        width: '60px',
         top: '0',
         zIndex: '3',
         position: 'absolute',
-        // display: 'none',
-        display: 'inline-block',
+        display: 'none',
         left: '5px',
         '& :hover': {
             cursor: 'move'
@@ -73,14 +83,13 @@ const useStyles = makeStyles({
     },
     arrowRight: {
         color: '#e50914',
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         height: '100%',
-        width: '70px',
+        width: '60px',
         top: '0',
         zIndex: '3',
         position: 'absolute',
-        // display: 'none',
-        display: 'inline-block',
+        display: 'none',
         right: '-12px',
         '& :hover': {
             cursor: 'move'
@@ -93,19 +102,20 @@ function CarouselList(props) {
     *  mouse is hovered in CarouselContainer arrow will be displayed
     * */ 
     const classes = useStyles()
+    const movies = props.movies
     // select <List> with useRef()
     const listRef = useRef()
     // select <img> with useRef([]) array
     const moviesRef = useRef([])
-    const movies = props.movies
     // moviesPoster is child of <List>
     const moviesPoster = movies.map((movie, index) => (
         <ListItem key={index}>
             <img ref={el => (moviesRef.current = [...moviesRef.current, el])} src={`http://image.tmdb.org/t/p/w185/${movie.poster_path}`} alt={`poster of ${movie.poster_path}`}/>
         </ListItem>
     ))
-    let scrollPerClick
+    // scroll carousel
     let scrollAmount = 0
+    let scrollPerClick = 100
     /* move carousel left side function */
     const carouselScrollLeft = () => {
         listRef.current.scrollTo({
@@ -119,17 +129,17 @@ function CarouselList(props) {
     }
     // move carousel right side function
     const carouselScrollRight = () => {
-        console.log('listRef-scrollWidth', listRef.current.scrollWidth)
-        console.log('listRef-clientWidth', listRef.current.clientWidth)
-        console.log('moviesRef-clientWidth',moviesRef.current[5].clientWidth)
-        console.log('moviesRef-scrollWidth',moviesRef.current[5].scrollWidth)
+        // console.log('listRef-scrollWidth', listRef.current.scrollWidth)
+        // console.log('listRef-clientWidth', listRef.current.clientWidth)
+        // console.log('moviesRef-clientWidth',moviesRef.current[5].clientWidth)
+        // console.log('moviesRef-scrollWidth',moviesRef.current[5].scrollWidth)
         /* moviesRef.current[5].clientWidth should be assigned to scrollPerClick 
         *  outside this carouselScrollRight()
         *  it should be fixed
         */
-        scrollPerClick = moviesRef.current[1].clientWidth
-        console.log(scrollPerClick)
-        console.log(listRef)
+        // scrollPerClick = moviesRef.current[1].clientWidth + 20
+        // console.log(scrollPerClick)
+        // console.log(listRef)
         if(scrollAmount <= listRef.current.scrollWidth - listRef.current.clientWidth) {
             listRef.current.scrollTo({
                 top: 0,
@@ -137,17 +147,21 @@ function CarouselList(props) {
                 behavior: 'smooth'
             })
         }
+        console.log('scrollAmount:',scrollAmount)
+        console.log('listRef:', listRef.current)
+        console.log('listRef.current.scrollWidth - listRef.current.clientWidth:',listRef.current.scrollWidth - listRef.current.clientWidth)
     }
+  
     return (
-        <Box>
-             <List ref={listRef} className={classes.carouselList}>
+        <Box className={classes.carouselList}>
+            <List ref={listRef} className={classes.list}>
                     {moviesPoster}
             </List>
             <Box className={classes.arrowLeftBox} onClick={()=>{carouselScrollLeft()}}>
-                <ArrowLeftIcon className={classes.arrowLeft} />
+                <ArrowBackIosIcon  className={classes.arrowLeft} />
             </Box>
             <Box className={classes.arrowRightBox} onClick={()=>{carouselScrollRight()}}>
-                <ArrowRightIcon className={classes.arrowRight} />
+                <ArrowForwardIosIcon className={classes.arrowRight} />
             </Box>
         </Box>
     )
