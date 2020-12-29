@@ -14,7 +14,7 @@
 import React, { useState, useEffect } from 'react'
 // material-ui core
 import 
-{ Box,
+{ Box, Typography
  } from '@material-ui/core'
 // material-ui styling
 import { makeStyles }  from '@material-ui/styles'
@@ -22,17 +22,18 @@ import { makeStyles }  from '@material-ui/styles'
 import CarouselList from './CarouselList'
 
 const useStyles = makeStyles({
-    // container: {
-    //     marginTop: '30vh'
-    // },
     carousel: {
-        marginTop:'25vh', 
-        height: '50px',
+        marginTop:'20vh', 
+        // height: '150px',
         width: '100%',
         position: 'relative',
     },
     title: {
-        paddingLeft:'2vh'
+        paddingLeft:'5vh',
+        marginBottom: '-1vh'
+    },
+    CarouselList:{
+        marginTop: '-60px'
     }
 })
 function Carousel(props) {
@@ -66,10 +67,14 @@ function Carousel(props) {
         return <Box>Loading...</Box>
     } else {
         return (
-            <Box className={classes.container}>
+            <Box>
                 <Box className={classes.carousel}>
-                    
-                    <CarouselList movies={movies} title={props.title}/>
+                    <Box className={classes.title}>
+                        <Typography  variant="h5">{props.title}</Typography>
+                    </Box>
+                    <Box className={classes.CarouselList}>
+                        <CarouselList movies={movies} title={props.title}/>
+                    </Box>
                 </Box>
             </Box>
         )
