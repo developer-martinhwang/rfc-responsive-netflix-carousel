@@ -33,7 +33,7 @@ const useStyles = makeStyles({
         marginBottom: '-1vh'
     },
     CarouselList:{
-        marginTop: '-60px'
+        marginTop: '-50px'
     }
 })
 function Carousel(props) {

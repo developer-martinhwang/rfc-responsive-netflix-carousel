@@ -17,17 +17,14 @@ import { Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 // components
 import movieRequest from './request'
-import Carousel from './carousel/Carousel'
+import CarouselZoomout from './carousel-zoomout/Carousel'
+import CarouselExpandWidth from './carousel-expandwidth/Carousel'
 // assets
 import NetflixLogo from '../assets/netflix.png'
 const useStyles = makeStyles({
     carouselContainer: {
         height: '13vh',
-        // width: '100%',
     },
-    // home:{ 
-    //     padding: '5px'
-    // },
     netflixLogo: {
         height: '19vw',
         width: 'auto',
@@ -46,7 +43,7 @@ const useStyles = makeStyles({
     },
     '@media screen and (min-height: 850px)':{
         carouselContainer: {
-            height: '5vh',
+            height: '10vh',
         }
     },
     '@media screen and (max-height: 850px) and (min-height: 550px)':{
@@ -68,10 +65,13 @@ function Home() {
                 <img src={NetflixLogo} alt="Netflix Logo"/>
             </Box>
             <Box className={classes.carouselContainer}>
-                <Carousel title="Action Movie" fetchUrl={movieRequest.actionMovies} />
+                <CarouselZoomout title="Trend" fetchUrl={movieRequest.trendMovies} />
             </Box>
             <Box className={classes.carouselContainer}>
-                <Carousel title="Drama" fetchUrl={movieRequest.actionMovies} />
+                <CarouselZoomout title="Drama" fetchUrl={movieRequest.actionMovies} />
+            </Box>
+            <Box>
+                <CarouselExpandWidth title="Netflix Original" fetchUrl={movieRequest.netflixOriginals}/>
             </Box>
         </Box>
     )

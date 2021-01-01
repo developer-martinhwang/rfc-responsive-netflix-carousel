@@ -11,7 +11,7 @@
  * - 23 Dec, 2020, Martin Hwang <developer.martinhwang@gmail.com> : Created
  * - 24 Dec, 2020, Martin Hwang: implemented functions which scroll carousel to left and right side 
  */
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 // material-ui core
 import { Box,  IconButton, Tooltip } from '@material-ui/core'
 import { List, ListItem } from '@material-ui/core'
@@ -24,6 +24,8 @@ import AddCircleIcon from '@material-ui/icons/AddCircle'
 import InfoIcon from '@material-ui/icons/Info'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt'
+// util
+import { Genre } from '../utils/util'
 const useStyles = makeStyles({                                                                                                                                                                              
     carouselList: {
         // to locate <ArrowBackIosIcon /> <List/> <ArrowForwardIosIcon/> 
@@ -41,7 +43,7 @@ const useStyles = makeStyles({
         }
     },
     list: {
-        height: '280px',
+        height: '600px',
         width: 'auto',
         overflow: 'hidden',
         whiteSpace: 'nowrap',
@@ -56,39 +58,40 @@ const useStyles = makeStyles({
         */
         display: 'flex',
         flexDirection: 'column',
+        background: '#141414',
+        borderRadius: '5px',
+        padding: '2px',
         '& img': {
-            // adjust image size of each movie poster
-            minWidth: '180px',
-            maxWidth: '180px',
-            height: '170px',
+            borderRadius: '5px',
+            width: '250px',
+            height: '450px',
             backgroundSize: 'cover',
-            margin: '5px, 10px',
+            margin: '5px, 5px',
             cursor: 'pointer',
-            transition: '0.5s ease',
-            zIndex: '2',
         },
-        '& div': {
-            width: '140px',
-            backgroundSize: 'cover',
-            margin: '5px, 10px',
-            cursor: 'pointer',
-            background: '#141414',
-            display: 'none'
+        '& .imgBox': {
+            display: 'none',
         },
+      
         '&:hover': {
-            transform: 'scale(1.3)',
-            zIndex: '20',
-            padding: '0',
-            boxShadow: '0 0 10px #717171',
-            transition: 'transform 500ms ease-out',
-            '& div' : {
-                transform: 'scale(1.3)',
-                transitionDelay: '1s',
-                overflow:'visible',
+            '& img': {
+                minWidth: 'none',
+                maxWidth: 'none',
+                width: '600px',
+                transition: 'width 4s',
+            },
+            '& .imgBox' : {
+                cursor: 'pointer',
+                bottom: '80px',
+                zIndex: '20',
+                position: 'relative',
                 display: 'inline-block',
-                
+                height: '0',
             }
         }
+    },
+    iconButton: {
+        padding: '5px',
     },
     arrowLeftBox: {
         zIndex: '3',
@@ -118,9 +121,6 @@ const useStyles = makeStyles({
             cursor: 'move'
         }
     },
-    iconButton: {
-        padding: ' 15px 5px 5px 5px'
-    },
 })
 const BlackOnWhiteTooltip = withStyles({
     tooltip: {
@@ -128,6 +128,7 @@ const BlackOnWhiteTooltip = withStyles({
         backgroundColor: '#fff'
     }
   })(Tooltip);
+
 function CarouselList(props) {
     /* listRef(), moviesRef(), let scrollPerClick, let scrollAmount = 0
     *  carouselScrollLeft() carouselScrollRight() will be moved to CarouselContainer.js components
@@ -139,31 +140,51 @@ function CarouselList(props) {
     const listRef = useRef()
     // select <img> with useRef([]) array
     const moviesRef = useRef([])
+    // clientWidth 
+    // const [clientWidth, setClientWidth] = useState()
+    // const [movieClientWidth, setMovieClientWidth] = useState()
+    useEffect(() => {
+        const initialCarouselScrollLeft = () => {
+            listRef.current.scrollTo({
+                top: 0,
+                left: 190,
+                behavior: 'smooth'
+            })
+        }
+        initialCarouselScrollLeft()
+    }, [])
     // moviesPoster is child of <List>
     const moviesPoster = movies.map((movie, index) => (
-        <ListItem key={index} className={classes.listItem}>
+        <ListItem key={index} className={classes.listItem} onClick={(props)=> {console.log(movie)}} >
             <img ref={el => (moviesRef.current = [...moviesRef.current, el])} src={`http://image.tmdb.org/t/p/w185/${movie.poster_path}`} alt={`poster of ${movie.poster_path}`}/>
-            <Box color="white" display="flex">
+            <Box className="imgBox" color="#fff" display="flex" flexDirection="column">
+                <Box display="flex" justifyContent="center" padding="2px">
                     <IconButton color="inherit" className={classes.iconButton} size="small" aria-label="more info" component="span" onClick={(props) => {console.log(props)}}>
                         <BlackOnWhiteTooltip title="Add">
                             <AddCircleIcon/>
                         </BlackOnWhiteTooltip>
                     </IconButton>
-                <IconButton color="inherit" className={classes.iconButton} size="small" aria-label="more info" component="span" onClick={(props) => {console.log(props)}}>
-                    <BlackOnWhiteTooltip title="I like it">
-                        <ThumbUpAltIcon/>
-                    </BlackOnWhiteTooltip>
-                </IconButton>
-                <IconButton color="inherit" className={classes.iconButton} size="small" aria-label="more info" component="span" onClick={(props) => {console.log(props)}}>
-                    <BlackOnWhiteTooltip title="Not for me">
-                        <ThumbDownAltIcon/>
-                    </BlackOnWhiteTooltip>
-                </IconButton>
-                <IconButton color="inherit" className={classes.iconButton} size="small" aria-label="more info" component="span" onClick={(props) => {console.log(props)}}>
-                    <BlackOnWhiteTooltip title="Watch & more info">
-                        <InfoIcon/>
-                    </BlackOnWhiteTooltip>
-                </IconButton>
+                    <IconButton color="inherit" className={classes.iconButton} size="small" aria-label="more info" component="span" onClick={(props) => {console.log(props)}}>
+                        <BlackOnWhiteTooltip title="I like it">
+                            <ThumbUpAltIcon/>
+                        </BlackOnWhiteTooltip>
+                    </IconButton>
+                    <IconButton color="inherit" className={classes.iconButton} size="small" aria-label="more info" component="span" onClick={(props) => {console.log(props)}}>
+                        <BlackOnWhiteTooltip title="Not for me">
+                            <ThumbDownAltIcon/>
+                        </BlackOnWhiteTooltip>
+                    </IconButton>
+                    <IconButton color="inherit" className={classes.iconButton} size="small" aria-label="more info" component="span" onClick={(props) => {console.log(props)}}>
+                        <BlackOnWhiteTooltip title="Watch & more info">
+                            <InfoIcon/>
+                        </BlackOnWhiteTooltip>
+                    </IconButton>
+                </Box>
+                <Box display="flex" padding="2px 2px 2px 5px">
+                    <Box padding="2px" component="span">{Genre(movie.genre_ids[0])} |</Box> 
+                    <Box padding="2px" component="span">{Genre(movie.genre_ids[1])} |</Box>
+                    <Box padding="2px" component="span">vote: {movie.vote_average}/10</Box>
+                </Box>
             </Box>
         </ListItem>
     ))
@@ -175,6 +196,8 @@ function CarouselList(props) {
         console.log('listRef-scrollWidth', listRef.current.scrollWidth)
         console.log('listRef-clientWidth', listRef.current.clientWidth)
         console.log('scrollAmount:',scrollAmount)
+        // get clientWidth as soon as render
+        // setClientWidth(listRef.current.clientWidth)
         listRef.current.scrollTo({
             top: 0,
             left: (scrollAmount -= scrollPerClick+listRef.current.clientWidth),
