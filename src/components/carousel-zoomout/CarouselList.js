@@ -174,7 +174,7 @@ function CarouselList(props) {
     }, [])
     // moviesPoster is child of <List>
     const moviesPoster = movies.map((movie, index) => (
-        <ListItem key={index} className={classes.listItem} onClick={(props)=> {console.log(movie)}} >
+        <ListItem key={index} className={classes.listItem} onClick={(props)=> {console.log('ListItemProps',props); console.log(window.innerWidth)}}>
             <img ref={el => (moviesRef.current = [...moviesRef.current, el])} src={`http://image.tmdb.org/t/p/w185/${movie.poster_path}`} alt={`poster of ${movie.poster_path}`}/>
             <Box className="imgBox" color="white" display="flex" flexDirection="column">
                 <Box display="flex" justifyContent="center" padding="2px">
@@ -215,6 +215,7 @@ function CarouselList(props) {
         console.log('listRef-scrollWidth', listRef.current.scrollWidth)
         console.log('listRef-clientWidth', listRef.current.clientWidth)
         console.log('scrollAmount:',scrollAmount)
+        console.log('innerWidth', window.innerWidth)
         // get clientWidth as soon as render
         // setClientWidth(listRef.current.clientWidth)
         listRef.current.scrollTo({

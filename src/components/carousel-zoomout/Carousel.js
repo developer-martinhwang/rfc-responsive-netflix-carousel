@@ -69,7 +69,7 @@ function Carousel(props) {
         return (
             <Box>
                 <Box className={classes.carousel}>
-                    <Box className={classes.title}>
+                    <Box className={classes.title} color="#fff">
                         <Typography  variant="h5">{props.title}</Typography>
                     </Box>
                     <Box className={classes.CarouselList}>

@@ -156,7 +156,7 @@ function CarouselList(props) {
     // moviesPoster is child of <List>
     const moviesPoster = movies.map((movie, index) => (
         <ListItem key={index} className={classes.listItem} onClick={(props)=> {console.log(movie)}} >
-            <img ref={el => (moviesRef.current = [...moviesRef.current, el])} src={`http://image.tmdb.org/t/p/w185/${movie.poster_path}`} alt={`poster of ${movie.poster_path}`}/>
+            <img ref={el => (moviesRef.current = [...moviesRef.current, el])} src={`http://image.tmdb.org/t/p/w185/${movie?.poster_path}`} alt={`poster of ${movie.poster_path}`}/>
             <Box className="imgBox" color="#fff" display="flex" flexDirection="column">
                 <Box display="flex" justifyContent="center" padding="2px">
                     <IconButton color="inherit" className={classes.iconButton} size="small" aria-label="more info" component="span" onClick={(props) => {console.log(props)}}>

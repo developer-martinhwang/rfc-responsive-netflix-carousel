@@ -16,30 +16,18 @@ import { Box } from '@material-ui/core'
 // material-ui style
 import { makeStyles } from '@material-ui/styles'
 // components
+import Header from './header-background/Header'
+import Navbar from './nav-bar/Navbar'
 import movieRequest from './request'
 import CarouselZoomout from './carousel-zoomout/Carousel'
 import CarouselExpandWidth from './carousel-expandwidth/Carousel'
 // assets
-import NetflixLogo from '../assets/netflix.png'
+// import NetflixLogo from '../assets/netflix.png'
 const useStyles = makeStyles({
     carouselContainer: {
         height: '13vh',
     },
-    netflixLogo: {
-        height: '19vw',
-        width: 'auto',
-        marginTop:'20vh',
-        textAlign: 'center',
-        '& img': {
-            height: '100%',
-        },
-    },
     '@media screen and (max-width: 1000px)':{
-        netflixLogo:{
-            '& img': {
-                height: '150%'
-            }
-        },
     },
     '@media screen and (min-height: 850px)':{
         carouselContainer: {
@@ -61,9 +49,8 @@ function Home() {
     const classes = useStyles()
     return (
         <Box className={classes.home}>
-            <Box className={classes.netflixLogo}>
-                <img src={NetflixLogo} alt="Netflix Logo"/>
-            </Box>
+            <Navbar/>
+            <Header fetchUrl={movieRequest.netflixOriginals}/>
             <Box className={classes.carouselContainer}>
                 <CarouselZoomout title="Trend" fetchUrl={movieRequest.trendMovies} />
             </Box>

@@ -42,16 +42,16 @@ function Carousel(props) {
     const [ isLoaded, setIsLoaded ] = useState(false)
     const [ error, setError ] = useState('')
     useEffect(() => {
+        async function getMovies(){
+            await fetch(props.fetchUrl)
+                .then(res => res.json())
+                .then(res => {
+                    setIsLoaded(true)
+                    let movies = res.results
+                    setMovies(movies)
+                })
+        }
         try {
-            async function getMovies(){
-                await fetch(props.fetchUrl)
-                    .then(res => res.json())
-                    .then(res => {
-                        setIsLoaded(true)
-                        let movies = res.results
-                        setMovies(movies)
-                    })
-            }
             getMovies()
         } catch (err) {
             setIsLoaded(true)
@@ -69,7 +69,7 @@ function Carousel(props) {
         return (
             <Box>
                 <Box className={classes.carousel}>
-                    <Box className={classes.title}>
+                    <Box className={classes.title}  color="#fff">
                         <Typography  variant="h5">{props.title}</Typography>
                     </Box>
                     <Box className={classes.CarouselList}>

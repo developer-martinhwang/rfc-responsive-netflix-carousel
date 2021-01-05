@@ -27,3 +27,10 @@ export const Genre = (num) => {
     }
     return genre
 }
+
+export const turncate = (str, n) => {
+    return str?.length > n ? str.substr(0, n) + '...' : str
+}
+export const randomMovie = (arr) => {
+    return Math.floor(Math.random() * arr.length)
+}
